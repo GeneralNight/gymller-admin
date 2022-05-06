@@ -91,6 +91,12 @@ export const api = {
   },
   deleteGymEquipaments(slug,equipId) {
     return axiosInstance.delete(`/gym/${slug}/equipaments/${equipId}/delete`)
+  },
+  indexEquipaments(slug,equipamentId) {
+    return axiosInstance.get(`/gym/${slug}/equipaments/${equipamentId}/`)
+  },
+  updateGymEquipaments(slug,equipamentId,body) {
+    return axiosInstance.put(`/gym/${slug}/equipaments/${equipamentId}/update`,body)
   }
 };
 
