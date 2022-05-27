@@ -5,7 +5,7 @@
                 <div class="item d-flex justify-content-between align-items-center" v-for="(equipament,index) in equipaments" :key="index">
                     <p class="itemName mb-0">{{equipament.name}}</p>
                     <div class="itemActions d-flex align-items-end">
-                        <div @click.prevent="showExercises(equipament.id)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-dumbbell"></i></div>
+                        <div @click.prevent="showExercises(equipament.id)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-running"></i></div>
                         <div @click.prevent="goTo(`/${slug}/aparelhos/editar/${equipament.id}`)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-edit"></i></div>
                         <div @click.prevent="removeEquipament(equipament)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-trash-alt"></i></div>
                     </div>

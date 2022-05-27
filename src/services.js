@@ -107,6 +107,12 @@ export const api = {
   storeGymExercises(slug,body) {
     return axiosInstance.post(`/gym/${slug}/exercises/store`,body)
   },
+  indexGymExercises(slug,exerciseId) {
+    return axiosInstance.get(`/gym/${slug}/exercises/${exerciseId}`)
+  },
+  updateGymExercises(slug,exerciseId,body) {
+    return axiosInstance.put(`/gym/${slug}/exercises/${exerciseId}/update`,body)
+  },
 
 
   getGymExercisesCategory(slug) {
