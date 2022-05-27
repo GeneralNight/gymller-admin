@@ -15,6 +15,8 @@ import EditOppeningHours from '@/views/Gym/OppeningHours/EditOppeningHours.vue'
 import Equipaments from '@/views/Gym/Equipaments/Equipaments.vue'
 import AddEquipaments from '@/views/Gym/Equipaments/AddEquipaments.vue'
 import EditEquipaments from '@/views/Gym/Equipaments/EditEquipaments.vue'
+import Exercises from '@/views/Gym/Exercises/Exercises.vue'
+import AddExercises from '@/views/Gym/Exercises/AddExercises.vue'
 
 Vue.use(VueRouter)
 
@@ -106,6 +108,18 @@ const routes = [
     path: '/:slug/aparelhos/editar/:equipamentId',
     name: 'EditEquipaments',
     component: EditEquipaments,
+    props: true
+  },
+  {
+    path: '/:slug/exercicios/',
+    name: 'Exercises',
+    component: Exercises,
+    props: true
+  },
+  {
+    path: '/:slug/exercicios/novo',
+    name: 'AddExercises',
+    component: AddExercises,
     props: true
   }
 ]

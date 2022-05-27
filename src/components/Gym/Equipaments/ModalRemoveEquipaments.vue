@@ -33,7 +33,7 @@ methods :{
                         this.makeToast('danger','Existem exercícios e fichas de treino que dependem deste aparelho, desvincule todos que o possuem e depois volte aqui!')
                     break;
                     default:
-                        this.makeToast('danger','Não foi possível remover o nível de acesso, tente novamente mais tarde!')
+                        this.makeToast('danger','Não foi possível remover o equipamento, tente novamente mais tarde!')
                     break;
                 }
             }

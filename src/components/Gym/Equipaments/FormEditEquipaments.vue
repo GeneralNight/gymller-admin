@@ -2,7 +2,7 @@
   <div>
       <FullLoader :text="loader.text" v-if="loader.visible"/>
         <b-form @submit.prevent="editEquipament" id="formEditEquipament">
-            <b-alert :variant="alertRegister.variant" :show="alertRegister.status">{{alertRegister.text}}</b-alert>
+            <b-alert dismissible :variant="alertRegister.variant" :show="alertRegister.status">{{alertRegister.text}}</b-alert>
             <div class="row" v-if="!blockAll">
                  <div class="col-12 col-md-6">
                     <div class="form-group">
@@ -66,7 +66,6 @@ methods: {
         this.$api.indexEquipaments(this.slug,this.equipamentId).then(res=> {
             if(res.data.msg=='success') {
                 this.form = res.data.data
-                
             }else {
                 var msgCode = res.data.code
                 switch (msgCode) {
@@ -105,10 +104,10 @@ methods: {
             if(res.data.msg=='success') {
                 this.alertRegister.text = "Aparelho editado com sucesso!"
                 this.alertRegister.variant = "success"                
-                this.form = {
-                    name: "",
-                    number: "",
-                }
+                // this.form = {
+                //     name: "",
+                //     number: "",
+                // }
             }else {
                 var msgCode = res.data.code
                 switch (msgCode) {

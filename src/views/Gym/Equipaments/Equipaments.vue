@@ -7,7 +7,9 @@
           <div class="col">
             <div class="d-flex justify-content-between align-items-center containrPageHeader">
               <p class="pageName mb-0"><i class="fas fa-dumbbell mr-2"></i> Aparelhos</p>
+              
               <button class="bPattern withIcon" @click.prevent="goTo(`/${slug}/aparelhos/novo`)"><i class="fas fa-plus mr-2"></i>Novo</button>
+              
             </div>
             <EquipamentsList :slug="slug"/>
           </div>

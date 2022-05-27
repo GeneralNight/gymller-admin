@@ -97,7 +97,28 @@ export const api = {
   },
   updateGymEquipaments(slug,equipamentId,body) {
     return axiosInstance.put(`/gym/${slug}/equipaments/${equipamentId}/update`,body)
-  }
+  },
+  getGymExercises(slug) {
+    return axiosInstance.get(`/gym/${slug}/exercises`)
+  },
+  deleteGymExercises(slug,exerciseId) {
+    return axiosInstance.delete(`/gym/${slug}/exercises/${exerciseId}/delete`)
+  },
+  storeGymExercises(slug,body) {
+    return axiosInstance.post(`/gym/${slug}/exercises/store`,body)
+  },
+
+
+  getGymExercisesCategory(slug) {
+    return axiosInstance.get(`/gym/${slug}/exercises-category/`)
+  },
+  storeGymExercisesCategory(slug,body) {
+    return axiosInstance.post(`/gym/${slug}/exercises-category/store`,body)
+  },
+  updateGymExercisesCategory(slug,catId,body) {
+    return axiosInstance.put(`/gym/${slug}/exercises-category/${catId}/update`,body)
+  },
+  deleteGymExercisesCategory(slug,catId) {
+    return axiosInstance.delete(`/gym/${slug}/exercises-category/${catId}/delete`)
+  },
 };
-
-

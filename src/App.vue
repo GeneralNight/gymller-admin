@@ -57,4 +57,34 @@ body {
   }
 }
 
+.bPatternDark {
+  border: 2px solid #00ca8d;
+  border-radius: 32px;
+  background: #00ca8d;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  transition: .2s;
+  padding: 3px 20px 3px 20px;
+
+  &:not(.withIcon) {
+    padding: 3px 30px;
+  }
+
+  &:hover {
+    background: #00ca8d;
+  }
+
+  &:disabled {
+    opacity: .8;
+    background: #444444;
+    border-color: #444444;
+    cursor: not-allowed;
+  }
+
+  @include d(xs) {
+    font-size: 1.15rem;
+  }
+}
+
 </style>

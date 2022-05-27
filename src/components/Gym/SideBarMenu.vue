@@ -14,7 +14,7 @@
                         <router-link :to="`/${slug}/funcionarios`"><i class="fas fa-user mr-2"></i>Funcionários</router-link>
                     </li>
                     <li>
-                        <router-link :to="`/${slug}/exercicios`"><i class="fas fa-dumbbell mr-2"></i>Exercícios</router-link>
+                        <router-link :to="`/${slug}/exercicios`"><i class="fas fa-running mr-2"></i>Exercícios</router-link>
                     </li>
                     <li>
                         <router-link :to="`/${slug}/aparelhos`"><i class="fas fa-dumbbell mr-2"></i>Aparelhos</router-link>

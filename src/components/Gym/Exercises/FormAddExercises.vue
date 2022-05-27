@@ -1,37 +1,46 @@
 <template>
     <div>
         <FullLoader :text="loader.text" v-if="loader.visible"/>
-        <b-form @submit.prevent="addEquipament" id="formAddEquipament">
+        <b-form @submit.prevent="addExercise" id="formAddExercise">
             <b-alert :variant="alertRegister.variant" :show="alertRegister.status">{{alertRegister.text}}</b-alert>
             <div class="row" v-if="!blockAll">
                  <div class="col-12 col-md-6">
                     <div class="form-group">
-                        <label for="equipamentName">Nome</label>
-                        <input type="text" class="form-control" id="equipamentName" required v-model="form.name">
+                        <label for="exerciseName">Nome</label>
+                        <input type="text" class="form-control" id="exerciseName" required v-model="form.name">
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="form-group">
-                        <label for="equipamentNumber">Número de identificação</label>
-                        <input type="number" class="form-control" id="equipamentNumber"  min="1" required v-model="form.number">
+                        <label for="exerciseCategory">Categoria</label>
+                        <select class="form-control" v-model="form.exercise_category_id" id="exerciseCategory" required>
+                            <option disabled value="">Selecione</option>
+                            <option :value="cat.id" v-for="(cat,index) in categories" :key="index">{{cat.description}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="form-group">
+                        <label for="exerciseDescription">Descrição</label>
+                        <input type="text" class="form-control" id="exerciseDescription" required v-model="form.description">
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="d-flex justify-content-end align-items-center mt-5">
-                        <button :disabled="bRegister.disabled" type="button" class="bPattern withIcon mr-sm-4" @click.prevent="openModal('modalPreventErrorEquipaments')"><i class="fas fa-reply mr-2"></i>Voltar</button>
+                        <button :disabled="bRegister.disabled" type="button" class="bPattern withIcon mr-sm-4" @click.prevent="openModal('modalPreventErrorExercises')"><i class="fas fa-reply mr-2"></i>Voltar</button>
                         <button :disabled="bRegister.disabled" type="submit" class="bPattern withIcon"><i class="fas fa-plus mr-2"></i>{{bRegister.text}}</button>
                     </div>
                 </div>
             </div>
         </b-form>
-    </div>
+    </div>  
 </template>
 
 <script>
 import FullLoader from '@/components/FullLoader.vue'
 export default {
-name: 'FormAddEquipaments',
-props: ['slug'],
+name: 'FormAddExercises',
+props:['slug'],
 components: {
     FullLoader
 },
@@ -53,22 +62,24 @@ data() {
         },
         form: {
             name: "",
-            number: "",
+            exercise_category_id: "",
+            description: ""
         },
-        avaibleDays: []
+        avaibleDays: [],
+        categories: []
     }
 },
 methods: {
-    async addEquipament() {
+    async addExercise() {
         this.alertRegister.status = false
         this.bRegister.disabled = true
         this.bRegister.text = "Cadastrando"
         this.loader.text = "Solicitando cadastro..."
         this.loader.visible = true
         
-        await this.$api.storeGymEquipaments(this.slug,this.form).then(res=>{
+        await this.$api.storeGymExercises(this.slug,this.form).then(res=>{
             if(res.data.msg=='success') {
-                this.alertRegister.text = "Aparelho cadastrado com sucesso!"
+                this.alertRegister.text = "Exercício cadastrado com sucesso!"
                 this.alertRegister.variant = "success"                
                 this.form = {
                     name: "",
@@ -82,11 +93,11 @@ methods: {
                         this.alertRegister.variant = "warning"
                     break;
                     case '002':
-                        this.alertRegister.text = "Outro aparelho já foi cadastrado com esse nome!"
+                        this.alertRegister.text = "Outro exercício já foi cadastrado com esse nome!"
                         this.alertRegister.variant = "warning"
                     break;
                     case '003':
-                        this.alertRegister.text = "Outro aparelho já foi cadastrado com esse número de identificação!"
+                        this.alertRegister.text = "Outro exercício já foi cadastrado com esse número de identificação!"
                         this.alertRegister.variant = "warning"
                     break;
                     default:
@@ -106,12 +117,53 @@ methods: {
         this.bRegister.text = "Cadastrar"
         this.loader.visible = false
     },
+    async loadCategories() {
+        this.loader.visible = true
+        this.loader.text = "Carregando categorias..."
+
+        await this.$api.getGymExercisesCategory(this.slug).then(res=> {
+            if(res.data.msg=='success') {
+                this.categories = res.data.data
+            }else {
+                var msgCode = res.data.code
+                switch (msgCode) {
+                    case '001':
+                        this.alertRegister.text = "Verifique o slug e tente novamente. É aconselhável que saia e entre novamente no sistema!"
+                        this.alertRegister.variant = "warning"
+                    break;
+                    case '002':
+                        this.alertRegister.text = "Outro exercício já foi cadastrado com esse nome!"
+                        this.alertRegister.variant = "warning"
+                    break;
+                    case '003':
+                        this.alertRegister.text = "Outro exercício já foi cadastrado com esse número de identificação!"
+                        this.alertRegister.variant = "warning"
+                    break;
+                    default:
+                        this.alertRegister.text = "Não foi possível realizar o cadastro, tente novamente mais tarde!"
+                        this.alertRegister.variant = "danger"
+                        this.blockAll = true
+                    break;
+                }
+            }
+            this.alertRegister.status = true
+            window.scroll({
+                top: 0,
+                behavior: 'smooth'
+            })
+        })
+
+        this.loader.visible = false
+    }
+},
+created() {
+    this.loadCategories()
 }
 }
 </script>
 
 <style lang="scss" scoped>
-#formAddEquipament {
+#formAddExercise {
     color: #fff;
     .infoDetail {
         width: fit-content;
