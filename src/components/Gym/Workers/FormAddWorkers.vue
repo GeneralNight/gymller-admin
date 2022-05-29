@@ -198,6 +198,7 @@ methods: {
         try {
             await this.$api.getGymPositions(this.slug).then(res=> {
                 if(res.data.msg=='success') {
+                    res.data.data = res.data.data.filter(c=>c.name!='admin-master')
                     if(res.data.data.length>0){
                         this.gymPositions = res.data.data
                     }else {

@@ -56,6 +56,7 @@ methods: {
         try {
             await this.$api.getGymPositions(this.slug).then(res=> {
                 if(res.data.msg=="success") {
+                    res.data.data = res.data.data.filter(c=>c.name!='admin-master')
                     this.positions = res.data.data
                 }else {
                     this.someErrorMsg = "Verifique o slug da url e tente novamente. Caso não resolva, saia e entre no sistema novamente."

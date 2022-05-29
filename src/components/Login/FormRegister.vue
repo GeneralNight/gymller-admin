@@ -184,7 +184,24 @@ methods: {
         try {
             await this.$api.registerGym(this.form).then(res=> {
                 if(res.data.msg=="success") {
-
+                    this.alertRegister.text = "Registro feito com sucesso!"
+                    this.alertRegister.variant = "success"
+                    this.alertRegister.status = true
+                    this.form = {
+                        name: "",
+                        cnpj: "",
+                        cep: "",
+                        city: "",
+                        state: "",
+                        neighborhood: "",
+                        address: "",
+                        number: "",
+                        email: "",
+                        phone: "",
+                        slug: "",
+                        username: "",
+                        password: ""
+                    }
                 }else if(res.data.code==1){
                     this.alertRegister.text = "Alguma academia em nosso sistema já possui o slug que você colocou, troque-o e tente novamente"
                     this.alertRegister.variant = "warning"
@@ -194,6 +211,10 @@ methods: {
                     this.alertRegister.variant = "danger"
                     this.alertRegister.status = true
                 }
+            }).catch(err=> {
+                this.alertRegister.text = "Algum erro aconteceu, tente novamente mais tarde!"
+                this.alertRegister.variant = "danger"
+                this.alertRegister.status = true
             })
         } catch (error) {
             console.log(error)
@@ -205,6 +226,10 @@ methods: {
         this.loader.visible = false
         this.bRegister.text = "Cadastrar"
         this.bRegister.disabled = false
+        window.scroll({
+            top: 0,
+            behavior: 'smooth'
+        })
     },
     async loadAddress() {
         this.loader.text = "Buscando CEP..."
