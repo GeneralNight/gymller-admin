@@ -94,12 +94,12 @@ methods: {
                     window.localStorage.token = res.data.access_token
                     this.$router.push(`/${this.form.slug}/dashboard`)
                 }else {
-                    this.alertLogin.text = "Usuário ou senha incorretos!"
+                    this.alertLogin.msg = "Usuário ou senha incorretos!"
                     this.alertLogin.variant = "danger"
                     this.alertLogin.status = true
                 }
             }).catch(err=> {
-                this.alertLogin.text = "Usuário ou senha incorretos!"
+                this.alertLogin.msg = "Usuário ou senha incorretos!"
                 this.alertLogin.variant = "danger"
                 this.alertLogin.status = true
             })

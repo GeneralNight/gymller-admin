@@ -26,6 +26,9 @@
                         <router-link :to="`/${slug}/niveis-de-acesso`"><i class="fas fa-sitemap mr-2"></i>Níveis de acesso</router-link>
                     </li>
                     <li>
+                        <router-link :to="`/${slug}/alunos`"><i class="fas fa-users mr-2"></i>Alunos</router-link>
+                    </li>
+                    <li>
                         <router-link to="/"><i class="fas fa-power-off mr-2"></i>Loggout</router-link>
                     </li>
                 </ul>

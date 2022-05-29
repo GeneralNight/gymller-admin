@@ -18,6 +18,7 @@ import EditEquipaments from '@/views/Gym/Equipaments/EditEquipaments.vue'
 import Exercises from '@/views/Gym/Exercises/Exercises.vue'
 import AddExercises from '@/views/Gym/Exercises/AddExercises.vue'
 import EditExercises from '@/views/Gym/Exercises/EditExercises.vue'
+import Students from '@/views/Gym/Students/Students.vue'
 
 Vue.use(VueRouter)
 
@@ -127,6 +128,12 @@ const routes = [
     path: '/:slug/exercicios/editar/:exerciseId',
     name: 'EditExercises',
     component: EditExercises,
+    props: true
+  },
+  {
+    path: '/:slug/alunos',
+    name: 'Students',
+    component: Students,
     props: true
   }
 ]

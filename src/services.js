@@ -130,4 +130,8 @@ export const api = {
   deleteGymExercisesCategory(slug,catId) {
     return axiosInstance.delete(`/gym/${slug}/exercises-category/${catId}/delete`)
   },
+
+  getGymStudents(slug) {
+    return axiosInstance.get(`/gym/${slug}/students`)
+  }
 };
