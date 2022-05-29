@@ -1,34 +1,40 @@
 <template>
     <div>
-        <div class="defaultList" v-if="loaded">
-            <div v-if="!someError">
-                <div class="containerAllItems" v-if="students.length>0">
-                    <div class="item d-flex justify-content-between align-items-center" v-for="(student,index) in students" :key="index">
-                        <p class="itemName mb-0">{{student.name}}</p>
-                        <div class="itemActions d-flex align-items-end">
-                            <div @click.prevent="connectStudent(student.id)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-link"></i></div>
+        <FullLoader :text="fullLoader.text" v-if="fullLoader.visible"/>
+        <div>
+            <div class="defaultList" v-if="loaded">
+                <div v-if="!someError">
+                    <b-alert v-if="alertConnect.status" :variant="alertConnect.variant" show><i class="fas fa-info-circle mr-2"></i> {{alertConnect.text}}</b-alert>
+                    <div class="containerAllItems" v-if="students.length>0">
+                        <div class="item d-flex justify-content-between align-items-center" v-for="(student,index) in students" :key="index">
+                            <p class="itemName mb-0">{{student.name}}</p>
+                            <div class="itemActions d-flex align-items-end">
+                                <div @click.prevent="connectStudent(student.id)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-link"></i></div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="noStudents" v-else>
+                        <b-alert variant="warning" show><i class="fas fa-info-circle mr-2"></i>Nenhum aluno encontrado.</b-alert>
                     </div>
                 </div>
                 <div class="noStudents" v-else>
-                    <b-alert variant="warning" show><i class="fas fa-info-circle mr-2"></i>Nenhum aluno encontrado.</b-alert>
+                    <b-alert variant="danger" show><i class="fas fa-info-circle mr-2"></i>{{someErrorMsg}}</b-alert>
                 </div>
             </div>
-            <div class="noStudents" v-else>
-                <b-alert variant="danger" show><i class="fas fa-info-circle mr-2"></i>{{someErrorMsg}}</b-alert>
-            </div>
+            <LoaderInList v-else class="mt-5" :text="'Carregando alunos...'"/>
         </div>
-        <LoaderInList v-else class="mt-5" :text="'Carregando alunos...'"/>
     </div>
 </template>
 
 <script>
 import LoaderInList from '@/components/LoaderInList.vue'
+import FullLoader from '@/components/FullLoader.vue'
 export default {
 name: 'StudentsConnectList',
 props:['slug'],
 components: {
-    LoaderInList
+    LoaderInList,
+    FullLoader
 },
 data() {
     return {
@@ -39,12 +45,42 @@ data() {
         someDelete: false,
         students: [
            
-        ]
+        ],
+        fullLoader: {
+            visible: false,
+            text: 'Adicionando usuário à lista de alunos da academia...'
+        },
+        alertConnect: {
+            text: '',
+            status: false,
+            variant: ''
+        }
     }
 },
 methods: {
-    connectStudent(studentId) {
+    async connectStudent(studentId) {
+        this.fullLoader.text = 'Adicionando usuário à lista de alunos da academia...'
+        this.fullLoader.visible = true
+        this.alertConnect.status = false
 
+        await this.$api.storeClientToGym(this.slug,studentId).then(res=> {
+            if(res.data.msg=='success') {
+                this.loadStudents()
+            }else {
+                this.alertConnect.text = 'Erro ao adicionar usuário à lista de alunos da academia!'
+                this.alertConnect.variant = 'danger'
+                this.alertConnect.status = true
+            }
+        }).catch(err=> {
+            if(err.response.status==401){
+                this.$router.push('/')
+            }
+            this.alertConnect.text = 'Erro ao adicionar usuário à lista de alunos da academia!'
+            this.alertConnect.variant = 'danger'
+            this.alertConnect.status = true
+        })
+
+        this.fullLoader.visible = false
     },
     removeStudent(student) {
 

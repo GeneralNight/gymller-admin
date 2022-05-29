@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="d-flex justify-content-between align-items-center containrPageHeader">
-                            <p class="pageName mb-0"><i class="fas fa-link mr-2"></i>Connectar Alunos</p>
+                            <p class="pageName mb-0"><i class="fas fa-link mr-2"></i>Conectar Alunos</p>
                             <div>
                                 <button class="bPattern withIcon" @click.prevent="goTo(`/${slug}/alunos/`)"><i class="fas fa-reply mr-2"></i>Voltar</button>
                             </div>

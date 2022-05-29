@@ -137,5 +137,11 @@ export const api = {
 
   getStudents(slug) {
     return axiosInstance.get(`/gym/${slug}/students/notConnected`)
+  },
+  storeClientToGym(slug,studentId) {
+    return axiosInstance.post(`/gym/${slug}/students/${studentId}/connect-gym`)
+  },
+  deleteGymStudent(slug,studentId) {
+    return axiosInstance.delete(`/gym/${slug}/students/${studentId}/disconnect-gym`)
   }
 };

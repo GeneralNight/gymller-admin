@@ -6,10 +6,10 @@
                     <div class="item d-flex justify-content-between align-items-center" v-for="(student,index) in students" :key="index">
                         <p class="itemName mb-0">{{student.name}}</p>
                         <div class="itemActions d-flex align-items-end">
-                            <div @click.prevent="connectStudent(student.id)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-link"></i></div>
                             <div @click.prevent="removeStudent(student)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-trash-alt"></i></div>
                         </div>
                     </div>
+                    <ModalRemoveStudent :someDelete.sync="someDelete" :student="studentRemove" :slug="slug"/>
                 </div>
                 <div class="noStudents" v-else>
                     <b-alert variant="warning" show><i class="fas fa-info-circle mr-2"></i>Nenhum aluno encontrado.</b-alert>
@@ -25,18 +25,20 @@
 
 <script>
 import LoaderInList from '@/components/LoaderInList.vue'
+import ModalRemoveStudent from '@/components/Gym/Students/ModalRemoveStudent.vue'
 export default {
 name: 'StudentsList',
 props:['slug'],
 components: {
-    LoaderInList
+    LoaderInList,
+    ModalRemoveStudent
 },
 data() {
     return {
         loaded: false,
         someError: false,
         someErrorMsg: "",
-        exerciseRemove: null,
+        studentRemove: null,
         someDelete: false,
         students: [
            
@@ -44,11 +46,9 @@ data() {
     }
 },
 methods: {
-    connectStudent(studentId) {
-
-    },
     removeStudent(student) {
-
+        this.studentRemove = student
+        this.openModal("modalRemoveStudents")
     },
     async loadStudents() {
         this.loaded = false
@@ -72,6 +72,11 @@ methods: {
 },
 created() {
     this.loadStudents()
+},
+watch: {
+    someDelete() {
+        this.loadStudents()
+    }
 }
 }
 </script>
