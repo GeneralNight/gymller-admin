@@ -39,7 +39,8 @@ data() {
         },
         form: {
             username: '',
-            password: ''
+            password: '',
+            slug: ''
         },
         alertLogin: {
             status: false,
@@ -57,7 +58,7 @@ methods: {
             this.alertLogin.status = true
             this.form.username = ""
             this.form.password = ""
-            return
+            return false
         }
         var gymName = this.form.username.split("@")[1]
         if(!gymName) {
@@ -66,15 +67,45 @@ methods: {
             this.alertLogin.status = true
             this.form.username = ""
             this.form.password = ""
-            return
+            return false
         }
-        this.form.gymName = gymName
+        this.form.slug = gymName
+        return true
     },
     makeLogin() {
         this.alertLogin.status = false
         this.bLogin.disabled = true
         this.bLogin.text = "Entrando"
-        this.verifyUsername()
+        
+        if(!this.verifyUsername()) {
+            this.bLogin.disabled = false
+            this.bLogin.text = "Entrar"
+            return
+        }else {
+            let dataSend = {
+                username: this.form.username,
+                password: this.form.password,
+                slug: this.form.slug
+            }
+            dataSend.username = dataSend.username.split("@")[0]
+            this.$api.login(dataSend).then(res=> {
+                if(res.data.me) {
+                    this.$store.commit('SET_ME',res.data.me)
+                    window.localStorage.token = res.data.access_token
+                    this.$router.push(`/${this.form.slug}/dashboard`)
+                }else {
+                    this.alertLogin.text = "Usuário ou senha incorretos!"
+                    this.alertLogin.variant = "danger"
+                    this.alertLogin.status = true
+                }
+            }).catch(err=> {
+                this.alertLogin.text = "Usuário ou senha incorretos!"
+                this.alertLogin.variant = "danger"
+                this.alertLogin.status = true
+            })
+        }
+
+        
         this.bLogin.disabled = false
         this.bLogin.text = "Entrar"
     }

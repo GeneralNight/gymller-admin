@@ -35,6 +35,9 @@ export const api = {
   getAddress(cep) {
     return axios.get(`https://viacep.com.br/ws/${cep}/json/`)
   },
+  login(body) {
+    return axiosInstance.post('/login',body)
+  },
   registerGym(body) {
     return axiosInstance.post(`/gym/store`,body)
   },
