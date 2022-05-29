@@ -133,5 +133,9 @@ export const api = {
 
   getGymStudents(slug) {
     return axiosInstance.get(`/gym/${slug}/students`)
+  },
+
+  getStudents(slug) {
+    return axiosInstance.get(`/gym/${slug}/students/notConnected`)
   }
 };

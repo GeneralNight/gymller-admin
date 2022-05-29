@@ -19,6 +19,7 @@ import Exercises from '@/views/Gym/Exercises/Exercises.vue'
 import AddExercises from '@/views/Gym/Exercises/AddExercises.vue'
 import EditExercises from '@/views/Gym/Exercises/EditExercises.vue'
 import Students from '@/views/Gym/Students/Students.vue'
+import StudentsConnect from '@/views/Gym/Students/StudentsConnect.vue'
 
 Vue.use(VueRouter)
 
@@ -134,6 +135,12 @@ const routes = [
     path: '/:slug/alunos',
     name: 'Students',
     component: Students,
+    props: true
+  },
+  {
+    path: '/:slug/alunos/connect',
+    name: 'StudentsConnect',
+    component: StudentsConnect,
     props: true
   }
 ]
