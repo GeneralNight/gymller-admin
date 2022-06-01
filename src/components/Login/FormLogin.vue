@@ -72,7 +72,7 @@ methods: {
         this.form.slug = gymName
         return true
     },
-    makeLogin() {
+    async makeLogin() {
         this.alertLogin.status = false
         this.bLogin.disabled = true
         this.bLogin.text = "Entrando"
@@ -88,7 +88,7 @@ methods: {
                 slug: this.form.slug
             }
             dataSend.username = dataSend.username.split("@")[0]
-            this.$api.login(dataSend).then(res=> {
+            await this.$api.login(dataSend).then(res=> {
                 if(res.data.me) {
                     this.$store.commit('SET_ME',res.data.me)
                     window.localStorage.token = res.data.access_token

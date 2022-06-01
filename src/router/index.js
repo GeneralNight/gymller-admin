@@ -20,6 +20,8 @@ import AddExercises from '@/views/Gym/Exercises/AddExercises.vue'
 import EditExercises from '@/views/Gym/Exercises/EditExercises.vue'
 import Students from '@/views/Gym/Students/Students.vue'
 import StudentsConnect from '@/views/Gym/Students/StudentsConnect.vue'
+import ExerciseEquipament from '@/views/Gym/ExerciseEquipament/ExerciseEquipament.vue'
+import AddExerciseEquipament from '@/views/Gym/ExerciseEquipament/AddExerciseEquipament.vue'
 
 Vue.use(VueRouter)
 
@@ -141,6 +143,18 @@ const routes = [
     path: '/:slug/alunos/connect',
     name: 'StudentsConnect',
     component: StudentsConnect,
+    props: true
+  },
+  {
+    path: '/:slug/exercicios/:exerciseId/aparelhos',
+    name: 'ExerciseEquipament',
+    component: ExerciseEquipament,
+    props: true
+  },
+  {
+    path: '/:slug/exercicios/:exerciseId/aparelhos/novo',
+    name: 'AddExerciseEquipament',
+    component: AddExerciseEquipament,
     props: true
   }
 ]

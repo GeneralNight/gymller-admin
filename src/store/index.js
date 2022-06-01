@@ -5,9 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    me: null
+    me: null,
+    exerciseName: ''
   },
   mutations: {
+    SET_EXERCISE_NAME(state,payload) {
+      state.exerciseName = payload
+    },
     SET_ME(state,payload) {
       state.me = payload
     }

@@ -6,6 +6,7 @@
                     <div class="item d-flex justify-content-between align-items-center" v-for="(student,index) in students" :key="index">
                         <p class="itemName mb-0">{{student.name}}</p>
                         <div class="itemActions d-flex align-items-end">
+                            <div @click.prevent="goTo(`/${slug}/alunos/${student.id}/fichas-treino`)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-list"></i></div>
                             <div @click.prevent="removeStudent(student)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-trash-alt"></i></div>
                         </div>
                     </div>

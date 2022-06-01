@@ -6,7 +6,7 @@
                     <div class="item d-flex justify-content-between align-items-center" v-for="(exercise,index) in exercises" :key="index">
                         <p class="itemName mb-0">{{exercise.name}}</p>
                         <div class="itemActions d-flex align-items-end">
-                            <div @click.prevent="showEquipaments(exercise.id)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-dumbbell"></i></div>
+                            <div @click.prevent="showEquipaments(exercise)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-dumbbell"></i></div>
                             <div @click.prevent="goTo(`/${slug}/exercicios/editar/${exercise.id}`)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-edit"></i></div>
                             <div @click.prevent="removeExercise(exercise)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-trash-alt"></i></div>
                         </div>
@@ -48,8 +48,9 @@ data() {
     }
 },
 methods: {
-    showEquipaments(id) {
-        this.$router.push(`/${this.slug}/exercícios/${id}/aparelhos/`)
+    showEquipaments(exercise) {
+        this.$store.commit("SET_EXERCISE_NAME",exercise.name)
+        this.$router.push(`/${this.slug}/exercicios/${exercise.id}/aparelhos/`)
     },
     async loadExercises() {
         this.loaded = false
@@ -76,6 +77,11 @@ methods: {
 },
 created() {
     this.loadExercises()
+},
+watch: {
+    someDelete() {
+        this.loadExercises()
+    }
 }
 }
 </script>

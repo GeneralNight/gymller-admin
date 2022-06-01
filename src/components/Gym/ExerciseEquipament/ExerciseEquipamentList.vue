@@ -4,7 +4,6 @@
             <div class="containerAllItems" v-if="equipaments.length>0">
                 <div class="item d-flex justify-content-between align-items-center" v-for="(equipament,index) in equipaments" :key="index">
                     <div class="d-flex align-items-center">
-                        
                         <p class="itemName num mb-0 mr-3">{{/* eslint-disable */parseInt(equipament.number) < 10 ? `0${equipament.number}` : equipament.number}}</p>
                         <p class="itemName mb-0">{{equipament.name}}</p>
                     </div>
@@ -18,22 +17,23 @@
                 <ModalRemoveEquipaments :someDelete.sync="someDelete" :equipament="equipamentRemove" :slug="slug"/>
             </div>
             <div class="noEquipaments" v-else>
-                <b-alert variant="warning" show><i class="fas fa-info-circle mr-2"></i>Nenhum aparelho cadastrado.</b-alert>
+                <b-alert variant="warning" show><i class="fas fa-info-circle mr-2"></i>Nenhum aparelho relacionado ao exercício {{exerciseName?exerciseName:''}} cadastrado.</b-alert>
             </div>
         </div>
         <div class="noEquipaments" v-else>
             <b-alert variant="danger" show><i class="fas fa-info-circle mr-2"></i>{{someErrorMsg}}</b-alert>
         </div>
     </div>
-    <LoaderInList v-else class="mt-5" :text="'Carregando aparelhos...'"/>
+    <LoaderInList v-else class="mt-5" :text="`Carregando aparelhos do ${exerciseName?exerciseName:''}...`"/>
 </template>
 
 <script>
 import LoaderInList from '@/components/LoaderInList.vue'
 import ModalRemoveEquipaments from '@/components/Gym/Equipaments/ModalRemoveEquipaments.vue'
+import { mapState } from 'vuex'
 export default {
-name: 'EquipamentsList',
-props: ['slug'],
+name: 'ExerciseEquipamentList',
+props: ['slug','exerciseId'],
 components: {
     LoaderInList,
     ModalRemoveEquipaments
@@ -57,9 +57,10 @@ methods: {
     async loadEquipaments() {
         this.loaded = false
         try {
-            await this.$api.getGymEquipaments(this.slug).then(res=> {
+            await this.$api.getExerciseEquipaments(this.slug,this.exerciseId).then(res=> {
                 if(res.data.msg=="success") {
-                    this.equipaments = res.data.data                    
+                    this.equipaments = res.data.data    
+                    this.$store.commit('SET_EXERCISE_NAME',res.data.exercise[0].name)
                 }else {
                     this.someErrorMsg = "Verifique o slug da url e tente novamente. Caso não resolva, saia e entre no sistema novamente."
                     this.someError = true
@@ -84,6 +85,9 @@ watch: {
     someDelete() {
         this.loadEquipaments()
     }
+},
+computed: {
+    ...mapState(['exerciseName'])
 }
 }
 </script>

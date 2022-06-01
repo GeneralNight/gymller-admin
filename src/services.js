@@ -143,5 +143,8 @@ export const api = {
   },
   deleteGymStudent(slug,studentId) {
     return axiosInstance.delete(`/gym/${slug}/students/${studentId}/disconnect-gym`)
+  },
+  getExerciseEquipaments(slug,exexrciseId) {
+    return axiosInstance.get(`/gym/${slug}/exercises/${exexrciseId}/equipaments/`)
   }
 };
