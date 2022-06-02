@@ -4,17 +4,19 @@
             <div class="containerAllItems" v-if="equipaments.length>0">
                 <div class="item d-flex justify-content-between align-items-center" v-for="(equipament,index) in equipaments" :key="index">
                     <div class="d-flex align-items-center">
-                        <p class="itemName num mb-0 mr-3">{{/* eslint-disable */parseInt(equipament.number) < 10 ? `0${equipament.number}` : equipament.number}}</p>
+                        <p class="itemName num mb-0 mr-3">{{
+                            /* eslint-disable */
+                            parseInt(equipament.number) < 10 ? `0${equipament.number}` : equipament.number}}</p>
                         <p class="itemName mb-0">{{equipament.name}}</p>
                     </div>
                     
                     <div class="itemActions d-flex align-items-end">
-                        <div @click.prevent="showExercises(equipament.id)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-running"></i></div>
-                        <div @click.prevent="goTo(`/${slug}/aparelhos/editar/${equipament.id}`)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-edit"></i></div>
+                        <!-- <div @click.prevent="showExercises(equipament.id)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-running"></i></div> -->
+                        <!-- <div @click.prevent="goTo(`/${slug}/aparelhos/editar/${equipament.id}`)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-edit"></i></div> -->
                         <div @click.prevent="removeEquipament(equipament)" class="action d-flex justify-content-center align-items-center"><i class="fas fa-trash-alt"></i></div>
                     </div>
                 </div>
-                <ModalRemoveEquipaments :someDelete.sync="someDelete" :equipament="equipamentRemove" :slug="slug"/>
+                <ModalRemoveExerciseEquipaments :someDelete.sync="someDelete" :exerciseid="exerciseId" :equipament="equipamentRemove" :slug="slug"/>
             </div>
             <div class="noEquipaments" v-else>
                 <b-alert variant="warning" show><i class="fas fa-info-circle mr-2"></i>Nenhum aparelho relacionado ao exercício {{exerciseName?exerciseName:''}} cadastrado.</b-alert>
@@ -29,14 +31,14 @@
 
 <script>
 import LoaderInList from '@/components/LoaderInList.vue'
-import ModalRemoveEquipaments from '@/components/Gym/Equipaments/ModalRemoveEquipaments.vue'
+import ModalRemoveExerciseEquipaments from '@/components/Gym/ExerciseEquipament/ModalRemoveExerciseEquipaments.vue'
 import { mapState } from 'vuex'
 export default {
 name: 'ExerciseEquipamentList',
 props: ['slug','exerciseId'],
 components: {
     LoaderInList,
-    ModalRemoveEquipaments
+    ModalRemoveExerciseEquipaments
 },
 data() {
     return {
@@ -59,7 +61,7 @@ methods: {
         try {
             await this.$api.getExerciseEquipaments(this.slug,this.exerciseId).then(res=> {
                 if(res.data.msg=="success") {
-                    this.equipaments = res.data.data    
+                    this.equipaments = res.data.data   
                     this.$store.commit('SET_EXERCISE_NAME',res.data.exercise[0].name)
                 }else {
                     this.someErrorMsg = "Verifique o slug da url e tente novamente. Caso não resolva, saia e entre no sistema novamente."
@@ -75,7 +77,7 @@ methods: {
     },
     removeEquipament(equipament) {
         this.equipamentRemove = equipament
-        this.openModal("modalRemoveEquipaments")
+        this.openModal("modalRemoveExerciseEquipaments")
     },
 },
 created() {

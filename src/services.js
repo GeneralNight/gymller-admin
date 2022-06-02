@@ -146,5 +146,17 @@ export const api = {
   },
   getExerciseEquipaments(slug,exexrciseId) {
     return axiosInstance.get(`/gym/${slug}/exercises/${exexrciseId}/equipaments/`)
+  },
+  getExerciseName(slug,exerciseId) {
+    return axiosInstance.get(`/gym/${slug}/exercises/${exerciseId}/name`)
+  },
+  getAllNullableEquipamentsId(slug,exerciseId) {
+    return axiosInstance.get(`/gym/${slug}/equipaments/not-related-exercise/${exerciseId}`)
+  },
+  saveExerciseEquipament(slug,exerciseId,body) {
+    return axiosInstance.post(`/gym/${slug}/equipaments/exercises-equipament/${exerciseId}/store`,body)
+  },
+  deleteGymExerciseEquipaments(slug,exerciseId,equipId) {
+    return axiosInstance.delete(`/gym/${slug}/equipaments/${exerciseId}/exercises-equipament/${equipId}/delete`)
   }
 };
